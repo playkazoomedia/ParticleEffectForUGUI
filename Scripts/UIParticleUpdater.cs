@@ -319,13 +319,14 @@ namespace Coffee.UIExtensions
             if (!currentPs || !currentPs.IsAlive()) return;
 
             var main = currentPs.main;
+            var deltaTime = main.useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
             var isScaling = scale != Vector3.one;
             var space = GetSimulationSpace(currentPs);
 
             // non-scale or local
             if (!isScaling || space == ParticleSystemSimulationSpace.Local)
             {
-                currentPs.Simulate(Time.deltaTime, false, false, false);
+                currentPs.Simulate(deltaTime, false, false, false);
                 return;
             }
 
@@ -360,7 +361,7 @@ namespace Coffee.UIExtensions
             // cache position
             psTransform.SetPositionAndRotation(wp, originWorldRotation);
             WorldPositionCache.CacheWorldPosition(psTransform, wp);
-            currentPs.Simulate(Time.deltaTime, false, false, false);
+            currentPs.Simulate(deltaTime, false, false, false);
             psTransform.SetPositionAndRotation(originWorldPosition, originWorldRotation);
         }
 
